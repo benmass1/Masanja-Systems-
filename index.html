@@ -3,367 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masanja Gospel Melody | Kituo cha Huduma na Ufundi</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>MGM Token | Crypto Trading Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary: #0b2e23;
-            --secondary: #145a3a;
-            --accent: #FFD700;
-            --light: #f4f7f6;
-            --gold-gradient: linear-gradient(135deg, #FFD700 0%, #b8860b 100%);
-            --dark-gradient: linear-gradient(180deg, #0b2e23 0%, #000000 100%);
+            --bg-dark: #050f0c;
+            --card-dark: #0d1e19;
+            --mgm-gold: #FFD700;
+            --mgm-green: #00ff88;
+            --mgm-red: #ff3e3e;
+            --text-gray: #a0aec0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-dark); color: white; overflow-x: hidden; }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light);
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: var(--primary); }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 5px; }
-
-        /* HEADER & NAV */
+        /* HEADER */
         header {
-            background: var(--primary);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 3px solid var(--accent);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 4%; background: rgba(13, 30, 25, 0.8);
+            backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            position: sticky; top: 0; z-index: 100;
         }
-
-        .logo {
-            color: var(--accent);
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .nav-links { display: flex; gap: 20px; }
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .nav-links a:hover { color: var(--accent); }
+        .nav-links a { color: var(--text-gray); text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--mgm-gold); }
 
-        /* HERO SECTION */
-        .hero {
-            height: 80vh;
-            background: var(--dark-gradient), url('https://images.unsplash.com/photo-1507838596014-0e909d300063?q=80&w=2070') no-repeat center center/cover;
-            background-blend-mode: overlay;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 20px;
+        /* TRADING LAYOUT */
+        .main-grid {
+            display: grid; grid-template-columns: 1fr 350px;
+            gap: 15px; padding: 20px; max-width: 1400px; margin: auto;
         }
 
-        .hero h1 {
-            font-size: clamp(32px, 8vw, 60px);
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 20px;
-            color: var(--accent);
+        /* LIVE PRICE TICKER */
+        .ticker-wrap {
+            background: var(--card-dark); padding: 10px; border-radius: 8px;
+            display: flex; gap: 20px; overflow-x: auto; margin-bottom: 20px;
+        }
+        .ticker-item { min-width: 120px; font-size: 13px; }
+        .up { color: var(--mgm-green); }
+        .down { color: var(--mgm-red); }
+
+        /* CHART BOX */
+        .chart-section {
+            background: var(--card-dark); border-radius: 15px; padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .chart-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .pair-title { font-size: 24px; font-weight: bold; color: var(--mgm-gold); }
+
+        /* ORDER BOOK & TRADING */
+        .trading-panel { background: var(--card-dark); border-radius: 15px; padding: 20px; }
+        .tab-group { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #222; }
+        .tab { padding: 10px; cursor: pointer; color: var(--text-gray); font-size: 14px; }
+        .tab.active { color: var(--mgm-gold); border-bottom: 2px solid var(--mgm-gold); }
+
+        .input-box { margin-bottom: 15px; }
+        .input-box label { display: block; font-size: 12px; color: var(--text-gray); margin-bottom: 5px; }
+        .input-box input {
+            width: 100%; background: #050f0c; border: 1px solid #333;
+            padding: 12px; border-radius: 8px; color: white; outline: none;
         }
 
-        .hero p { font-size: 18px; max-width: 600px; margin-bottom: 30px; opacity: 0.9; }
-
-        .cta-buttons { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .btn {
-            padding: 15px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.4s;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
-        .btn-primary { background: var(--gold-gradient); color: var(--primary); box-shadow: 0 5px 15px rgba(255,215,0,0.4); }
-        .btn-outline { border: 2px solid var(--accent); color: var(--accent); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-
-        /* SECTION STYLING */
-        section { padding: 80px 10%; }
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .section-title h2 {
-            font-size: 32px;
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-        .section-title h2::after {
-            content: '';
-            width: 50%;
-            height: 4px;
-            background: var(--accent);
-            position: absolute;
-            bottom: 0;
-            left: 25%;
+        .btn-buy {
+            width: 100%; background: var(--mgm-green); color: black;
+            border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer;
         }
 
-        /* GRID SYSTEM */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
+        /* MARKET LIST TABLE */
+        .market-list { margin-top: 20px; width: 100%; border-collapse: collapse; }
+        .market-list th { text-align: left; color: var(--text-gray); font-size: 12px; padding: 10px; }
+        .market-list td { padding: 15px 10px; border-bottom: 1px solid #111; font-size: 14px; }
 
-        .service-card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            transition: 0.4s;
-            border-bottom: 5px solid transparent;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        .service-card:hover {
-            border-bottom-color: var(--accent);
-            transform: translateY(-10px);
-        }
-        .service-card i {
-            font-size: 50px;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        /* MUSIC PREVIEW SECTION */
-        .music-list {
-            background: var(--primary);
-            color: white;
-            border-radius: 30px;
-            padding: 40px;
-        }
-        .song-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: 0.3s;
-        }
-        .song-row:hover { background: rgba(255,215,0,0.1); padding-left: 10px; }
-        .song-info { display: flex; align-items: center; gap: 15px; }
-        .play-btn { color: var(--accent); font-size: 24px; cursor: pointer; }
-
-        /* CONTACT FORM */
-        .contact-container {
-            background: white;
-            border-radius: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        .contact-info { background: var(--primary); color: white; padding: 50px; }
-        .contact-form { padding: 50px; }
-        .input-group { margin-bottom: 20px; }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-top: 5px;
-        }
-
-        /* MOBILE OPTIMIZATION */
-        @media (max-width: 768px) {
-            .contact-container { grid-template-columns: 1fr; }
-            section { padding: 50px 5%; }
-            .nav-links { display: none; } /* Kifupisho cha mobile */
-        }
-
-        footer {
-            background: #000;
-            color: white;
-            text-align: center;
-            padding: 40px;
-            font-size: 14px;
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="logo">
-            <i class="fas fa-dove"></i> MGM SYSTEMS
-        </a>
-        <nav class="nav-links">
-            <a href="#home">NYUMBANI</a>
-            <a href="#services">HUDUMA</a>
-            <a href="#music">NYIMBO</a>
-            <a href="#diagnosis">UKAGUZI</a>
-            <a href="#contact">MAWASILIANO</a>
-        </nav>
-    </header>
-
-    <div class="hero animate__animated animate__fadeIn">
-        <h1 class="animate__animated animate__zoomIn">Masanja Gospel Melody</h1>
-        <p>Kituo chako cha huduma za Kiroho na usimamizi wa kisasa wa Mitambo na Diagnosis.</p>
-        <div class="cta-buttons">
-            <a href="#music" class="btn btn-primary">Sikiliza Nyimbo</a>
-            <a href="#diagnosis" class="btn btn-outline">Anza Diagnosis</a>
-        </div>
+<header>
+    <a href="#" class="logo">
+        <svg width="40" height="40" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#FFD700" />
+            <text x="50%" y="55%" text-anchor="middle" font-size="25" font-weight="bold" fill="#0b2e23">MGM</text>
+        </svg>
+        <span style="font-size: 18px; font-weight: bold; color: white;">MGM EXCHANGE</span>
+    </a>
+    <div class="nav-links">
+        <a href="#">Markets</a>
+        <a href="#">Trade</a>
+        <a href="#">Staking</a>
+        <a href="#">MGM Token</a>
     </div>
+    <div class="auth">
+        <button style="background:none; color:white; border:none; margin-right:15px;">Login</button>
+        <button style="background:var(--mgm-gold); border:none; padding:8px 20px; border-radius:5px; font-weight:bold;">Register</button>
+    </div>
+</header>
 
-    <section id="services">
-        <div class="section-title">
-            <h2>Vituo Vyetu</h2>
-        </div>
-        <div class="services-grid">
-            <div class="service-card animate__animated animate__fadeInUp">
-                <i class="fas fa-microphone-alt"></i>
-                <h3>Studio za MGM</h3>
-                <p>Kurekodi audio na video za viwango vya kimataifa kwa ajili ya injili.</p>
+<div class="container">
+    <div class="main-grid">
+        
+        <div class="left-col">
+            <div class="ticker-wrap">
+                <div class="ticker-item">BTC/USDT <br><span class="up">$94,231.40 (+2.4%)</span></div>
+                <div class="ticker-item">ETH/USDT <br><span class="up">$3,120.15 (+1.2%)</span></div>
+                <div class="ticker-item">MGM/USDT <br><span class="up">$1.45 (+15.8%)</span></div>
+                <div class="ticker-item">SOL/USDT <br><span class="down">$182.10 (-0.5%)</span></div>
+                <div class="ticker-item">BNB/USDT <br><span class="up">$610.30 (+0.8%)</span></div>
             </div>
-            <div class="service-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-                <i class="fas fa-tools"></i>
-                <h3>Mechanical Diagnosis</h3>
-                <p>Mifumo ya kisasa ya ukaguzi na matengenezo ya mitambo mizito (Heavy Machines).</p>
-            </div>
-            <div class="service-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
-                <i class="fas fa-broadcast-tower"></i>
-                <h3>Online Streaming</h3>
-                <p>Pata mafundisho na nyimbo zetu popote ulipo duniani kupitia App yetu.</p>
-            </div>
-        </div>
-    </section>
 
-    <section id="music" style="background: #fdfdfd;">
-        <div class="section-title">
-            <h2>Nyimbo Maarufu</h2>
-        </div>
-        <div class="music-list">
-            <div class="song-row">
-                <div class="song-info">
-                    <span class="play-btn"><i class="fas fa-play-circle"></i></span>
+            <div class="chart-section">
+                <div class="chart-header">
                     <div>
-                        <strong>Mifupa Mikavu</strong><br>
-                        <small>Masanja Gospel Melody</small>
+                        <span class="pair-title">MGM / USDT</span>
+                        <span style="color: var(--mgm-green); margin-left: 10px;">+15.82%</span>
                     </div>
+                    <div style="font-size: 12px; color: var(--text-gray);">24h Vol: 1,240,500 MGM</div>
                 </div>
-                <div class="duration">05:20</div>
+                <canvas id="mgmChart" height="150"></canvas>
             </div>
-            <div class="song-row">
-                <div class="song-info">
-                    <span class="play-btn"><i class="fas fa-play-circle"></i></span>
-                    <div>
-                        <strong>Nifundishe Kukujua</strong><br>
-                        <small>Masanja Gospel Melody</small>
-                    </div>
-                </div>
-                <div class="duration">04:45</div>
-            </div>
-            <div class="song-row">
-                <div class="song-info">
-                    <span class="play-btn"><i class="fas fa-play-circle"></i></span>
-                    <div>
-                        <strong>Bwana wa Mabwana</strong><br>
-                        <small>Masanja Gospel Melody</small>
-                    </div>
-                </div>
-                <div class="duration">06:10</div>
-            </div>
-        </div>
-    </section>
 
-    <section id="contact">
-        <div class="contact-container">
-            <div class="contact-info">
-                <h2>Tuandikie</h2>
-                <p>Je, una maoni au unahitaji huduma ya ufundi? Timu yetu ipo tayari.</p>
+            <table class="market-list">
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Price</th>
+                        <th>24h Change</th>
+                        <th>Market Cap</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fab fa-bitcoin" style="color:#f7931a"></i> Bitcoin (BTC)</td>
+                        <td>$94,231.40</td>
+                        <td class="up">+2.45%</td>
+                        <td>$1.8T</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fab fa-ethereum" style="color:#627eea"></i> Ethereum (ETH)</td>
+                        <td>$3,120.15</td>
+                        <td class="up">+1.20%</td>
+                        <td>$370B</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-coins" style="color:var(--mgm-gold)"></i> MGM Token</td>
+                        <td>$1.45</td>
+                        <td class="up">+15.82%</td>
+                        <td>$50M</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-bolt" style="color:#00ffa3"></i> Solana (SOL)</td>
+                        <td>$182.10</td>
+                        <td class="down">-0.54%</td>
+                        <td>$85B</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="right-col">
+            <div class="trading-panel">
+                <div class="tab-group">
+                    <div class="tab active">Buy</div>
+                    <div class="tab">Sell</div>
+                </div>
+
+                <div class="input-box">
+                    <label>Price (USDT)</label>
+                    <input type="text" value="1.45">
+                </div>
+                <div class="input-box">
+                    <label>Amount (MGM)</label>
+                    <input type="number" placeholder="0.00">
+                </div>
+                <div style="font-size: 11px; color: var(--text-gray); margin-bottom: 20px;">
+                    Balance: 5,420.00 USDT
+                </div>
+
+                <button class="btn-buy">Buy MGM</button>
+
                 <div style="margin-top: 30px;">
-                    <p><i class="fas fa-phone"></i> +255 700 000 000</p>
-                    <p><i class="fas fa-envelope"></i> info@mgm.co.tz</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Dar Es Salaam, Tanzania</p>
+                    <h4 style="font-size: 14px; margin-bottom: 15px; color: var(--text-gray);">Order Book</h4>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--mgm-red); margin-bottom:5px;">
+                        <span>1.452</span><span>5,000</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--mgm-red); margin-bottom:5px;">
+                        <span>1.451</span><span>2,200</span>
+                    </div>
+                    <div style="font-size: 18px; text-align: center; margin: 10px 0;">$1.450</div>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--mgm-green); margin-bottom:5px;">
+                        <span>1.449</span><span>8,500</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--mgm-green); margin-bottom:5px;">
+                        <span>1.448</span><span>12,000</span>
+                    </div>
                 </div>
             </div>
-            <div class="contact-form">
-                <form id="mgmForm">
-                    <div class="input-group">
-                        <label>Jina Kamili</label>
-                        <input type="text" placeholder="Andika jina lako..." required>
-                    </div>
-                    <div class="input-group">
-                        <label>Barua Pepe</label>
-                        <input type="email" placeholder="example@gmail.com" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Ujumbe Wako</label>
-                        <textarea rows="4" placeholder="Andika ujumbe hapa..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; border: none; cursor: pointer;">Tuma Ujumbe</button>
-                </form>
-            </div>
         </div>
-    </section>
 
-    <footer>
-        <div style="margin-bottom: 20px;">
-            <a href="#" style="color: var(--accent); margin: 0 10px; font-size: 20px;"><i class="fab fa-facebook"></i></a>
-            <a href="#" style="color: var(--accent); margin: 0 10px; font-size: 20px;"><i class="fab fa-instagram"></i></a>
-            <a href="#" style="color: var(--accent); margin: 0 10px; font-size: 20px;"><i class="fab fa-youtube"></i></a>
-        </div>
-        <p>© 2025 Masanja Gospel Melody (MGM). Haki zote zimehifadhiwa.</p>
-        <p><small>Designed for Excellence in Gospel & Engineering</small></p>
-    </footer>
+    </div>
+</div>
 
-    <script>
-        // Smooth Scrolling kwa Navigation Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Form Submission logic
-        document.getElementById('mgmForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Asante! Ujumbe wako umepokelewa na timu ya MGM.');
-            this.reset();
-        });
-
-        // Background Animation on Scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.background = 'rgba(11, 46, 35, 0.95)';
-                header.style.padding = '10px 5%';
-            } else {
-                header.style.background = '#0b2e23';
-                header.style.padding = '15px 5%';
+<script>
+    // Trading Chart Simulation
+    const ctx = document.getElementById('mgmChart').getContext('2d');
+    const mgmChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'],
+            datasets: [{
+                label: 'MGM Price',
+                data: [1.10, 1.15, 1.08, 1.25, 1.35, 1.40, 1.45],
+                borderColor: '#00ff88',
+                backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false }, ticks: { color: '#666' } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#666' } }
             }
-        });
-    </script>
+        }
+    });
+</script>
+
 </body>
 </html>
 
