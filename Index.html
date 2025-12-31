@@ -1,1 +1,214 @@
 
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Machine Inspection | MGM</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+  --primary: #0F5B3E;
+  --secondary: #145a3a;
+  --danger: #e74c3c;
+  --success: #2ecc71;
+  --bg: #f0f4f8;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: #333;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+}
+
+.section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-top: 4px solid var(--primary);
+}
+
+h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: var(--secondary);
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  background: #fafafa;
+  box-sizing: border-box; /* Inahakikisha padding haiharibu upana */
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #fff;
+}
+
+/* Rangi maalum kwa Hali ya Mashine */
+.status-ready { color: var(--success); font-weight: bold; }
+.status-not-ready { color: var(--danger); font-weight: bold; }
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(15, 91, 62, 0.3);
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: var(--secondary);
+  transform: translateY(-2px);
+}
+
+button i { margin-right: 10px; }
+
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2><i class="fas fa-tools"></i> UKAGUZI WA MITAMBO</h2>
+
+<form id="inspectionForm">
+  <div class="section">
+    <h3><i class="fas fa-info-circle"></i> Taarifa za Msingi</h3>
+    
+    <label>Tarehe ya Ukaguzi</label>
+    <input type="date" id="date">
+
+    <label>Aina ya Mashine</label>
+    <select>
+      <option>Gari / Truck</option>
+      <option>Excavator</option>
+      <option>Dozer</option>
+      <option>Generator</option>
+      <option>Wheel Loader</option>
+    </select>
+
+    <label>Jina / Namba ya Mashine</label>
+    <input type="text" placeholder="Mfano: DT 74 au EX 200">
+
+    <label>Masaa ya Mashine (Hours)</label>
+    <input type="number" placeholder="Ingiza Current Hours">
+  </div>
+
+  <div class="section">
+    <h3><i class="fas fa-engine"></i> ENGINE CHECK</h3>
+    
+    <label>Oil Level (Kiwango cha Oil)</label>
+    <select>
+      <option>✅ SAWA (NORMAL)</option>
+      <option>⚠️ CHINI (LOW)</option>
+      <option>❌ MBAYA (DIRTY)</option>
+    </select>
+
+    <label>Coolant / Maji ya Radiator</label>
+    <select>
+      <option>✅ SAWA (FULL)</option>
+      <option>⚠️ CHINI (REFILL)</option>
+    </select>
+
+    <label>Leaks (Uvujaji)</label>
+    <select>
+      <option>Hakuna Uvujaji</option>
+      <option>Kuna Uvujaji (Oil/Maji)</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <h3><i class="fas fa-shield-alt"></i> SAFETY & OPERATIONAL</h3>
+    
+    <label>Brakes (Breki)</label>
+    <select>
+      <option>Sawa (Good)</option>
+      <option>Zinahitaji Marekebisho</option>
+      <option>Hazifanyi kazi (Danger)</option>
+    </select>
+
+    <label>Horn / Alarm (Honi)</label>
+    <select>
+      <option>Inafanya kazi</option>
+      <option>Haifanyi kazi</option>
+    </select>
+    
+    <label>Taa (Lights)</label>
+    <select>
+      <option>Zote Nzima</option>
+      <option>Zinaungua/Mbovu</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <h3><i class="fas fa-comment-dots"></i> MAONI NA HALI YA MWISHO</h3>
+    
+    <label>Maoni ya Fundi / Driver</label>
+    <textarea rows="3" placeholder="Andika maoni yako hapa..."></textarea>
+
+    <label>Uamuzi (Machine Condition)</label>
+    <select id="machineStatus">
+      <option value="ready" class="status-ready">🟢 READY TO WORK (INAWEZA KAZI)</option>
+      <option value="not-ready" class="status-not-ready">🔴 NOT READY (ISIFANYE KAZI)</option>
+    </select>
+  </div>
+
+  <button type="submit"><i class="fas fa-save"></i> HIFADHI UKAGUZI</button>
+</form>
+</div>
+
+<script>
+// Kuweka tarehe ya leo moja kwa moja
+document.getElementById('date').valueAsDate = new Date();
+
+// Script ya kuzuia form isijitume bila usalama
+document.getElementById('inspectionForm').onsubmit = function(e) {
+  e.preventDefault();
+  alert("Ukaguzi umehifadhiwa kikamilifu!");
+};
+</script>
+</body>
+</html>
