@@ -1,160 +1,279 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MGM System Interface</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGM Machine Diagnosis | System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #0b2e23;
+            --accent: #FFD700;
+            --danger: #ff4d4d;
+            --success: #2ecc71;
+            --gray: #f4f7f6;
+        }
 
-<style>
-:root {
-  --primary: #0b2e23; /* Kijani ya MGM */
-  --accent: #FFD700;  /* Dhahabu */
-  --bg: #f8fafc;
-  --card: #ffffff;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--gray);
+            color: #333;
+        }
 
-body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+        /* HEADER */
+        header {
+            background: var(--primary);
+            color: var(--accent);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
 
-/* TOP NAVIGATION */
-nav {
-  background: var(--primary);
-  color: var(--accent);
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px 100px;
+        }
 
-.logo { font-weight: 800; font-size: 20px; letter-spacing: 1px; }
+        /* CARD STYLE */
+        .diag-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary);
+        }
 
-/* MAIN DASHBOARD */
-.dashboard {
-  max-width: 1000px;
-  margin: 30px auto;
-  padding: 0 20px;
-  flex: 1;
-}
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.welcome-msg { margin-bottom: 30px; }
-.welcome-msg h1 { color: var(--primary); margin: 0; font-size: 24px; }
-.welcome-msg p { color: #64748b; margin: 5px 0 0; }
+        /* FORM ELEMENTS */
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 14px;
+        }
 
-/* GRID SYSTEM */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px; /* Inazuia zoom-in kwenye iPhone */
+            box-sizing: border-box;
+            background: #fafafa;
+        }
 
-/* SECTION CARDS */
-.section-card {
-  background: var(--card);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-  transition: 0.3s;
-  border: 1px solid #e2e8f0;
-}
+        input:focus {
+            border-color: var(--primary);
+            outline: none;
+            background: #fff;
+        }
 
-.section-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-}
+        /* STATUS GRID (Checkboxes/Buttons) */
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
 
-.card-header {
-  padding: 20px;
-  background: var(--primary);
-  color: var(--accent);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+        .status-btn {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
 
-.card-body { padding: 20px; }
-.card-body p { color: #475569; font-size: 14px; line-height: 1.6; }
+        /* COLOR CODES */
+        .ready { border-color: var(--success); color: var(--success); }
+        .not-ready { border-color: var(--danger); color: var(--danger); }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--primary);
-  color: var(--accent);
-  padding: 12px 20px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 600;
-  margin-top: 15px;
-  width: 100%;
-  justify-content: center;
-  box-sizing: border-box;
-}
+        /* UPLOAD BUTTON */
+        .upload-area {
+            border: 2px dashed #3498db;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 10px;
+            color: #3498db;
+            cursor: pointer;
+        }
 
-.btn:hover { background: #145a3a; }
+        /* FLOATING ACTION BUTTON (SAVE) */
+        .save-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            background: var(--primary);
+            color: var(--accent);
+            border: none;
+            padding: 18px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 999;
+        }
 
-/* FOOTER STATUS */
-footer {
-  padding: 20px;
-  text-align: center;
-  font-size: 12px;
-  color: #94a3b8;
-}
-</style>
+        .save-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+    </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">MGM SYSTEM</div>
-  <div class="user-profile"><i class="fas fa-circle-user fa-lg"></i> Admin</div>
-</nav>
+<header>
+    <i class="fas fa-microchip fa-2x"></i>
+    <h2 style="margin: 5px 0 0;">DIAGNOSIS CENTER</h2>
+</header>
 
-<div class="dashboard">
-  
-  <div class="welcome-msg">
-    <h1>Habari, Karibu MGM Dashboard</h1>
-    <p>Chagua kitengo unachotaka kukikagua hapa chini.</p>
-  </div>
+<div class="container">
+    <form id="diagForm">
+        
+        <div class="diag-card">
+            <div class="card-title"><i class="fas fa-fingerprint"></i> Taarifa ya Mashine</div>
+            
+            <label>Aina ya Mtambo</label>
+            <select required>
+                <option value="">Chagua...</option>
+                <option>Excavator (Tingatinga)</option>
+                <option>Dump Truck (Lori)</option>
+                <option>Generator (Jenereta)</option>
+                <option>Wheel Loader</option>
+            </select>
 
-  <div class="grid">
-    
-    <div class="section-card">
-      <div class="card-header">
-        <i class="fas fa-play-circle fa-2x"></i>
-        <h2 style="margin:0; font-size: 18px;">MGM Media Center</h2>
-      </div>
-      <div class="card-body">
-        <p>Kagua muonekano wa maktaba ya nyimbo, uchezaji wa video, na mfumo wa audio kwa watumiaji.</p>
-        <a href="nyimbo.html" class="btn">Fungua Media Center <i class="fas fa-arrow-right"></i></a>
-      </div>
-    </div>
+            <label>Namba ya Asset / Machine ID</label>
+            <input type="text" placeholder="Mfano: MGM-DT-05" required>
 
-    <div class="section-card">
-      <div class="card-header" style="background: #1e293b;">
-        <i class="fas fa-microchip fa-2x"></i>
-        <h2 style="margin:0; font-size: 18px;">Operations & Inspection</h2>
-      </div>
-      <div class="card-body">
-        <p>Kagua interface ya fomu za ukaguzi wa mitambo na jinsi ripoti zinavyokusanywa site.</p>
-        <a href="inspection.html" class="btn" style="background: #1e293b;">Fungua Ukaguzi <i class="fas fa-arrow-right"></i></a>
-      </div>
-    </div>
+            <label>Saa za Kazi (SMU/Hours)</label>
+            <input type="number" placeholder="Ingiza masaa ya sasa" required>
+        </div>
 
-  </div>
+        <div class="diag-card">
+            <div class="card-title" style="color: #e67e22;"><i class="fas fa-tools"></i> Diagnosis ya Engine</div>
+            
+            <label>Oil Level & Quality</label>
+            <select>
+                <option>✅ Normal (Sawa)</option>
+                <option>⚠️ Low (Imeungua/Chini)</option>
+                <option>❌ Contaminated (Ina Maji/Chafu)</option>
+            </select>
 
+            <label>Milio ya Engine (Sound)</label>
+            <select>
+                <option>Smooth (Sauti Safi)</option>
+                <option>Abnormal (Kuna Kelele)</option>
+                <option>Knocking (Inagonga)</option>
+            </select>
+
+            <label>Rangi ya Moshi (Exhaust Smoke)</label>
+            <select>
+                <option>Clean (Safi)</option>
+                <option>Black (Moshi Mweusi)</option>
+                <option>White/Blue (Moshi Mweupe)</option>
+            </select>
+        </div>
+
+        <div class="diag-card">
+            <div class="card-title" style="color: #3498db;"><i class="fas fa-shield-virus"></i> Systems Check</div>
+            
+            <label>Hydraulic System Leaks</label>
+            <select>
+                <option>Hakuna Uvujaji</option>
+                <option>Kuna Uvujaji Mdogo</option>
+                <option>Uvujaji Mkubwa (Hatari)</option>
+            </select>
+
+            <label>Mifumo ya Umeme (Dashboard)</label>
+            <select>
+                <option>Zote Inafanya (OK)</option>
+                <option>Taa za Warning Zinawaka</option>
+                <option>Sensors Hazifanyi</option>
+            </select>
+        </div>
+
+        <div class="diag-card">
+            <div class="card-title"><i class="fas fa-camera-retro"></i> Ushahidi wa Picha</div>
+            <div class="upload-area" onclick="document.getElementById('picha').click()">
+                <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                <p>Gusa hapa kupiga picha ya tatizo</p>
+                <input type="file" id="picha" accept="image/*" capture="camera" style="display:none">
+            </div>
+
+            <label>Maelezo ya Diagnosis (Findings)</label>
+            <textarea rows="4" placeholder="Andika hapa uchunguzi wako wa kina..."></textarea>
+        </div>
+
+        <div class="diag-card" style="margin-bottom: 40px;">
+            <label>Uamuzi wa Fundi (Final Verdict)</label>
+            <div class="status-grid">
+                <div class="status-btn ready" id="btnReady" onclick="setStatus('ready')">
+                    <i class="fas fa-check-circle"></i> INAWEZA KAZI
+                </div>
+                <div class="status-btn not-ready" id="btnNotReady" onclick="setStatus('not')">
+                    <i class="fas fa-times-circle"></i> ISIFANYE KAZI
+                </div>
+            </div>
+            <input type="hidden" id="finalStatus" name="status">
+        </div>
+
+        <button type="submit" class="save-btn">
+            <i class="fas fa-save"></i> KAMILISHA DIAGNOSIS
+        </button>
+
+    </form>
 </div>
 
-<footer>
-  © 2025 Masanja Gospel Melody System v1.0.2<br>
-  Interface Verified for Mobile & Desktop
-</footer>
+<script>
+    function setStatus(val) {
+        const ready = document.getElementById('btnReady');
+        const not = document.getElementById('btnNotReady');
+        
+        if(val === 'ready') {
+            ready.style.background = '#2ecc71';
+            ready.style.color = 'white';
+            not.style.background = 'transparent';
+            not.style.color = '#ff4d4d';
+            document.getElementById('finalStatus').value = 'READY';
+        } else {
+            not.style.background = '#ff4d4d';
+            not.style.color = 'white';
+            ready.style.background = 'transparent';
+            ready.style.color = '#2ecc71';
+            document.getElementById('finalStatus').value = 'NOT READY';
+        }
+    }
+
+    document.getElementById('diagForm').onsubmit = function(e) {
+        e.preventDefault();
+        alert("Hongera! Diagnosis ya mashine imekamilika na kuhifadhiwa.");
+    }
+</script>
 
 </body>
 </html>
