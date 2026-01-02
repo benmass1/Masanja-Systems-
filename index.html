@@ -3,81 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MGM Investment | Faida na Uhakika</title>
+    <title>MGM Machinery Academy | Jifunze Mashine Nzito</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
-        .hero-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #064e3b 100%); }
+        .machine-card:hover img { transform: scale(1.05); transition: 0.4s; }
+        .bg-industrial { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1579412691515-db16503b41d0?auto=format&fit=crop&q=80&w=2000'); background-size: cover; }
     </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-900">
+<body class="bg-gray-100 font-sans">
 
-    <nav class="p-5 flex justify-between items-center bg-white shadow-sm sticky top-0 z-50">
-        <h1 class="text-2xl font-bold text-blue-800">MGM <span class="text-green-600">Invest</span></h1>
-        <div class="space-x-6 hidden md:flex">
-            <a href="#" class="hover:text-blue-600 font-medium">Nyumbani</a>
-            <a href="#plans" class="hover:text-blue-600 font-medium">Mipango</a>
-            <a href="#" class="hover:text-blue-600 font-medium">Kuhusu</a>
-        </div>
-        <div class="space-x-3">
-            <button class="px-4 py-2 text-blue-700 font-semibold">Ingia</button>
-            <button class="px-6 py-2 bg-blue-700 text-white rounded-lg shadow-md hover:bg-blue-800 transition">Jisajili</button>
+    <nav class="bg-yellow-500 p-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center text-black">
+            <div class="text-2xl font-black italic tracking-tighter">MGM <span class="font-light">ACADEMY</span></div>
+            <div class="hidden md:flex space-x-6 font-bold uppercase text-sm">
+                <a href="#" class="hover:underline">Caterpillar</a>
+                <a href="#" class="hover:underline">Komatsu</a>
+                <a href="#" class="hover:underline">Mining Gear</a>
+                <a href="#" class="hover:underline text-white bg-black px-3 py-1 rounded">Ingia</a>
+            </div>
         </div>
     </nav>
 
-    <header class="hero-gradient text-white py-20 px-5 text-center">
-        <h2 class="text-4xl md:text-6xl font-extrabold mb-6">Wekeza Leo kwa Ajili ya Kesho Yenye Uhakika</h2>
-        <p class="text-lg mb-8 text-blue-100 max-w-2xl mx-auto">Tumia token yako ya MGM kukuza kipato chako kupitia miradi ya Gospel Melody na uwekezaji wa kidijitali.</p>
-        <div class="flex justify-center gap-4">
-            <a href="#plans" class="bg-green-500 px-8 py-3 rounded-full font-bold hover:bg-green-600">Anza Sasa</a>
-            <a href="#" class="border border-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-blue-900">Soma Whitepaper</a>
+    <header class="bg-industrial h-[500px] flex items-center justify-center text-center text-white px-5">
+        <div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 uppercase">Mtaalamu wa Mashine Nzito</h1>
+            <p class="text-xl text-yellow-400 font-medium mb-8">Pata Manuals, Video, na Mafunzo ya Caterpillar, Komatsu, na Volvo.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <input type="text" placeholder="Tafuta mfano (e.g. HD405)..." class="px-6 py-3 rounded-full w-80 text-black outline-none border-4 border-yellow-500">
+                <button class="bg-yellow-500 text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-400 transition">Tafuta Kitabu</button>
+            </div>
         </div>
     </header>
 
-    <section id="plans" class="py-20 px-5 max-w-6xl mx-auto">
-        <h3 class="text-3xl font-bold text-center mb-12 uppercase tracking-wide">Mipango ya Uwekezaji</h3>
+    <section class="max-w-7xl mx-auto py-16 px-6">
+        <div class="flex justify-between items-end mb-10">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800 uppercase border-l-8 border-yellow-500 pl-4">Maktaba ya Mashine</h2>
+                <p class="text-gray-600 mt-2">Chagua aina ya mashine unayotaka kujifunza leo.</p>
+            </div>
+            <button class="text-yellow-600 font-bold hover:underline">Ona Zote -></button>
+        </div>
+
         <div class="grid md:grid-cols-3 gap-8">
             
-            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-blue-500 hover:-translate-y-2 transition">
-                <h4 class="text-xl font-bold mb-2">Starter Plan</h4>
-                <p class="text-3xl font-extrabold text-blue-800 mb-4">5% <span class="text-sm font-normal text-slate-500">Kila Siku</span></p>
-                <ul class="space-y-3 text-slate-600 mb-8">
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Kuanzia: $10 - $500</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Muda: Siku 30</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Withdrawal: Saa 24</li>
-                </ul>
-                <button class="w-full py-3 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-600 hover:text-white">Chagua Hii</button>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden machine-card group">
+                <div class="h-48 bg-gray-200 overflow-hidden relative">
+                    <img src="https://www.heavyequipmentguide.ca/image-library/large/36/komatsu-hd405-8-mechanical-haul-truck.jpg" alt="Komatsu" class="w-full h-full object-cover">
+                    <span class="absolute top-4 right-4 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded shadow">KOMATSU</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Komatsu HD405-8</h3>
+                    <p class="text-sm text-gray-500 mb-4 line-clamp-2">Jifunze kuhusu mfumo wa hydraulic, engine (SDA6D140E-5), na dashibodi ya kisasa.</p>
+                    <div class="flex justify-between items-center mt-4 border-t pt-4">
+                        <span class="text-xs font-bold text-gray-400"><i class="fa-solid fa-book"></i> 45 Units</span>
+                        <a href="#" class="bg-black text-white px-4 py-2 rounded text-sm font-bold hover:bg-yellow-500 hover:text-black transition">Anza Kusoma</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="bg-blue-900 text-white p-8 rounded-2xl shadow-2xl relative scale-105">
-                <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-green-500 px-4 py-1 rounded-full text-xs font-bold uppercase">Inayopendwa</span>
-                <h4 class="text-xl font-bold mb-2">Premium Plan</h4>
-                <p class="text-4xl font-extrabold text-green-400 mb-4">12% <span class="text-sm font-normal text-blue-200">Kila Siku</span></p>
-                <ul class="space-y-3 text-blue-100 mb-8">
-                    <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Kuanzia: $501 - $5,000</li>
-                    <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Muda: Siku 60</li>
-                    <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Bonasi ya MGM: 2%</li>
-                </ul>
-                <button class="w-full py-3 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600">Wekeza Sasa</button>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden machine-card group">
+                <div class="h-48 bg-gray-200 overflow-hidden relative">
+                    <img src="https://s7d2.scene7.com/is/image/Caterpillar/CM20210216-52e07-6f8e7" alt="CAT" class="w-full h-full object-cover">
+                    <span class="absolute top-4 right-4 bg-black text-yellow-500 text-xs font-bold px-3 py-1 rounded shadow">CATERPILLAR</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">CAT 797F Mining Truck</h3>
+                    <p class="text-sm text-gray-500 mb-4 line-clamp-2">Moja ya mashine kubwa zaidi duniani. Pata miongozo ya matengenezo na uendeshaji.</p>
+                    <div class="flex justify-between items-center mt-4 border-t pt-4">
+                        <span class="text-xs font-bold text-gray-400"><i class="fa-solid fa-video"></i> 12 Videos</span>
+                        <a href="#" class="bg-black text-white px-4 py-2 rounded text-sm font-bold hover:bg-yellow-500 hover:text-black transition">Anza Kusoma</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-yellow-500 hover:-translate-y-2 transition">
-                <h4 class="text-xl font-bold mb-2">VIP Plan</h4>
-                <p class="text-3xl font-extrabold text-blue-800 mb-4">25% <span class="text-sm font-normal text-slate-500">Kila Siku</span></p>
-                <ul class="space-y-3 text-slate-600 mb-8">
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Kuanzia: $5,001 - Unlimited</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Muda: Siku 90</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Meneja Binafsi</li>
-                </ul>
-                <button class="w-full py-3 border-2 border-yellow-600 text-yellow-600 font-bold rounded-xl hover:bg-yellow-600 hover:text-white">Chagua Hii</button>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden machine-card group">
+                <div class="h-48 bg-gray-200 overflow-hidden relative">
+                    <img src="https://www.equipmentworld.com/resources/images/EquipmentWorld/2019/04/Komatsu-PC2000-8.jpg" alt="Excavator" class="w-full h-full object-cover">
+                    <span class="absolute top-4 right-4 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded shadow">EXCAVATOR</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Komatsu PC2000-8</h3>
+                    <p class="text-sm text-gray-500 mb-4 line-clamp-2">Elewa mfumo mzima wa uchimbaji na jinsi ya kusoma namba za makosa (Error Codes).</p>
+                    <div class="flex justify-between items-center mt-4 border-t pt-4">
+                        <span class="text-xs font-bold text-gray-400"><i class="fa-solid fa-file-pdf"></i> Manual Ipo</span>
+                        <a href="#" class="bg-black text-white px-4 py-2 rounded text-sm font-bold hover:bg-yellow-500 hover:text-black transition">Anza Kusoma</a>
+                    </div>
+                </div>
             </div>
 
         </div>
     </section>
 
-    <footer class="bg-slate-900 text-slate-400 py-10 px-5 text-center">
-        <p>&copy; 2026 Masanja Gospel Melody (MGM). Haki zote zimehifadhiwa.</p>
+    <footer class="bg-gray-900 text-white py-12 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="font-bold text-yellow-500 mb-4 uppercase">MGM Academy</h4>
+                <p class="text-gray-400 text-sm italic">"Kujenga ujuzi wa kidijitali kwa mashine za kisasa za madini na ujenzi."</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-4 uppercase">Vyanzo Haraka</h4>
+                <ul class="text-gray-400 text-sm space-y-2">
+                    <li><a href="#" class="hover:text-yellow-500">Service Manuals</a></li>
+                    <li><a href="#" class="hover:text-yellow-500">Operation Guides</a></li>
+                    <li><a href="#" class="hover:text-yellow-500">Training Videos</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-4 uppercase">Tufuate</h4>
+                <div class="flex space-x-4 text-2xl">
+                    <i class="fa-brands fa-youtube hover:text-red-600 cursor-pointer transition"></i>
+                    <i class="fa-brands fa-whatsapp hover:text-green-500 cursor-pointer transition"></i>
+                </div>
+            </div>
+        </div>
     </footer>
 
 </body>
