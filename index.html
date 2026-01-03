@@ -3,321 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASANJA VOLT-X | Advanced Diagnostics</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <title>MASANJA VOLT-X | Quantum Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@300;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-blue: #00f2ff;
-            --neon-green: #39ff14;
-            --neon-purple: #bc13fe;
-            --deep-space: #020617;
-            --glass: rgba(15, 23, 42, 0.8);
-            --border-glow: rgba(0, 242, 255, 0.3);
+            --neon-cyan: #00f2ff;
+            --neon-red: #ff0055;
+            --neon-green: #00ff9d;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(0, 242, 255, 0.2);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top right, #1e1b4b, #020617);
-            color: #e2e8f0;
+            background-color: #030303;
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
             margin: 0;
             overflow-x: hidden;
-            background-attachment: fixed;
         }
 
-        /* Scanline Effect */
-        body::before {
-            content: " ";
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0.3;
-        }
-
+        /* Glowing Header */
         header {
-            height: 300px;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            background: radial-gradient(circle at center, #001a1d 0%, #030303 100%);
+        }
+
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff 30%, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.5));
+        }
+
+        /* Top Gauges Simulation */
+        .gauge-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .gauge {
+            border: 1px solid var(--border);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+        }
+
+        .val { color: var(--neon-cyan); font-weight: bold; }
+
+        /* Main Grid */
+        .master-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 50px 5%;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .module-box {
+            position: relative;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: 0.4s;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+        }
+
+        .module-box::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan));
+            transition: 0.5s;
+        }
+
+        .module-box:hover::before { left: 100%; }
+
+        .module-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .module-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--neon-cyan);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .file-item:hover {
+            border-color: var(--neon-cyan);
+            padding-left: 20px;
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        .file-info { display: flex; flex-direction: column; }
+        .file-name { font-size: 0.9rem; color: #ccc; }
+        .file-meta { font-size: 0.65rem; color: #666; margin-top: 4px; }
+
+        .ext-tag {
+            background: #000;
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+        }
+
+        /* Diagnostic Center */
+        .diag-center {
+            margin: 50px 5%;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #111;
+            border-radius: 30px;
+            padding: 40px;
+            position: relative;
+        }
+
+        .terminal-text {
+            color: var(--neon-green);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 30px;
+            border-left: 2px solid var(--neon-green);
+            padding-left: 20px;
+        }
+
+        .schematic-preview {
+            width: 100%;
+            height: 450px;
+            background: #000;
+            border: 1px solid #222;
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            border-bottom: 2px solid var(--neon-blue);
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+            background-image: radial-gradient(#111 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
-        h1 {
+        .btn-scan {
+            background: none;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 12px 30px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            margin: 0;
-            background: linear-gradient(to right, #fff, var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px var(--neon-blue));
             text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
         }
 
-        .status-bar {
-            margin-top: 15px;
-            font-family: 'JetBrains Mono', monospace;
-            background: #000;
-            padding: 5px 20px;
-            border-radius: 50px;
-            border: 1px solid var(--neon-blue);
-            font-size: 0.8rem;
-            color: var(--neon-green);
-            box-shadow: 0 0 10px var(--border-glow);
-        }
-
-        .grid-container {
-            max-width: 1300px;
-            margin: -40px auto 50px;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .module-card {
-            background: var(--glass);
-            border-left: 4px solid var(--neon-blue);
-            border-radius: 4px 20px 20px 4px;
-            padding: 30px;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(5px);
-            border-top: 1px solid var(--border-glow);
-        }
-
-        .module-card:hover {
-            transform: scale(1.03);
-            background: rgba(15, 23, 42, 0.95);
-            box-shadow: -5px 5px 20px var(--border-glow);
-        }
-
-        .module-card h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            color: var(--neon-blue);
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            text-transform: uppercase;
-        }
-
-        .module-card h2 i { margin-right: 10px; font-style: normal; }
-
-        .file-list { margin-top: 20px; }
-
-        .file-btn {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #cbd5e1;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            border: 1px solid transparent;
-            transition: 0.2s;
-        }
-
-        .file-btn:hover {
-            background: rgba(0, 242, 255, 0.1);
-            border-color: var(--neon-blue);
-            color: #fff;
-            padding-left: 20px;
-        }
-
-        .tag {
-            background: #000;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.6rem;
-            color: var(--neon-purple);
-            border: 1px solid var(--neon-purple);
-        }
-
-        /* Diagnostic Terminal Section */
-        .diagnostic-terminal {
-            max-width: 1300px;
-            margin: 50px auto;
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        }
-
-        .terminal-header {
-            background: #1e1e1e;
-            padding: 10px 20px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
-
-        .terminal-body {
-            padding: 30px;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--neon-green);
-            font-size: 0.9rem;
-            height: 300px;
-            overflow-y: auto;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 18px;
-            background: var(--neon-green);
-            animation: blink 1s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes blink { 50% { opacity: 0; } }
-
-        .schematic-display {
-            background: #0a0a0a;
-            height: 500px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-top: 1px solid #333;
-            position: relative;
-        }
-
-        .schematic-display::after {
-            content: "SECURE LINK: ESTABLISHED";
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 0.7rem;
-            color: #444;
+        .btn-scan:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-cyan);
         }
 
         footer {
             text-align: center;
-            padding: 60px;
-            background: #000;
-            color: #444;
-            font-family: 'Orbitron', sans-serif;
+            padding: 50px;
             font-size: 0.7rem;
-            letter-spacing: 2px;
-        }
-
-        .btn-action {
-            background: var(--neon-blue);
-            color: #000;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            border: none;
-            font-family: 'Orbitron', sans-serif;
-            transition: 0.3s;
-        }
-
-        .btn-action:hover {
-            box-shadow: 0 0 20px var(--neon-blue);
+            color: #444;
+            letter-spacing: 5px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>MASANJA VOLT-X</h1>
-        <div class="status-bar">
-            &gt; CORE_TEMP: 42°C | LOAD: 14% | CAN_BUS: STANDBY | VOLTS: 12.8V
-        </div>
-    </header>
+<header>
+    <h1 class="main-title">VOLT-X MASTER</h1>
+    <div class="gauge-container">
+        <div class="gauge">BATTERY: <span class="val">12.82V</span></div>
+        <div class="gauge">TEMP: <span class="val">38.4°C</span></div>
+        <div class="gauge">NETWORK: <span class="val">J1939 ACTIVE</span></div>
+    </div>
+</header>
 
-    <div class="grid-container">
-        <div class="module-card">
-            <h2><i>[01]</i> Lojiki ya Umeme</h2>
-            <div class="file-list">
-                <a href="#" class="file-btn"><span>Fundamentals_Ohm.sys</span> <span class="tag">DOC</span></a>
-                <a href="#" class="file-btn"><span>Multimeter_Mastery.exe</span> <span class="tag">APP</span></a>
-                <a href="#" class="file-btn"><span>Load_Calculations.py</span> <span class="tag">PY</span></a>
+<div class="master-grid">
+    <div class="module-box">
+        <div class="module-title"><span>⚡</span> FUNDAMENTALS</div>
+        <div class="file-item">
+            <div class="file-info">
+                <span class="file-name">ohms_law_logic.sys</span>
+                <span class="file-meta">SIZE: 14KB // TYPE: CORE</span>
             </div>
+            <span class="ext-tag">MD</span>
         </div>
-
-        <div class="module-card" style="border-left-color: var(--neon-purple);">
-            <h2 style="color: var(--neon-purple);"><i>[02]</i> Mfumo wa Kuchaji</h2>
-            <div class="file-list">
-                <a href="#" class="file-btn"><span>Alternator_Rectifier.map</span> <span class="tag">IMG</span></a>
-                <a href="#" class="file-btn"><span>Battery_Health_Protocol.sh</span> <span class="tag">SCRIPT</span></a>
-                <a href="#" class="file-btn"><span>Starter_Circuit_Bypass.vlt</span> <span class="tag">DATA</span></a>
+        <div class="file-item">
+            <div class="file-info">
+                <span class="file-name">multimeter_guide.exe</span>
+                <span class="file-meta">SIZE: 1.2MB // TYPE: TOOL</span>
             </div>
-        </div>
-
-        <div class="module-card" style="border-left-color: var(--neon-green);">
-            <h2 style="color: var(--neon-green);"><i>[03]</i> Network & CAN-BUS</h2>
-            <div class="file-list">
-                <a href="#" class="file-btn"><span>J1939_High_Low_Frame.bin</span> <span class="tag">CORE</span></a>
-                <a href="#" class="file-btn"><span>Resistor_Ohm_Verification.log</span> <span class="tag">LOG</span></a>
-                <a href="#" class="file-btn"><span>ECM_Communication_Flow.pdf</span> <span class="tag">PDF</span></a>
-            </div>
-        </div>
-
-        <div class="module-card" style="border-left-color: var(--danger-red);">
-            <h2 style="color: var(--danger-red);"><i>[04]</i> DTC & Diagnostics</h2>
-            <div class="file-list">
-                <a href="#" class="file-btn"><span>Error_Code_Database.json</span> <span class="tag">JSON</span></a>
-                <a href="#" class="file-btn"><span>Voltage_Drop_Technique.md</span> <span class="tag">PROC</span></a>
-                <a href="#" class="file-btn"><span>Short_Circuit_Locator.ai</span> <span class="tag">AI</span></a>
-            </div>
+            <span class="ext-tag">APP</span>
         </div>
     </div>
 
-    <div class="diagnostic-terminal">
-        <div class="terminal-header">
-            <div class="dot red"></div>
-            <div class="dot yellow"></div>
-            <div class="dot green"></div>
-            <span style="color: #666; font-size: 0.7rem; margin-left: 10px;">MASANJA_OS_V2.6_TERMINAL</span>
-        </div>
-        <div class="terminal-body">
-            <div id="logs">
-                [SYSTEM] Initializing Master Electrical Bus...<br>
-                [INFO] Scanning for connected ECUs...<br>
-                [INFO] Found 4 Modules (Engine, Transmission, Hydraulic, Chassis)<br>
-                [SUCCESS] All systems reporting within parameters.<br>
-                [READY] Waiting for diagnostic input...<br>
-                <span style="color: var(--neon-blue);">&gt; Masanja_VoltX: </span> <span class="cursor"></span>
+    <div class="module-box" style="border-color: var(--neon-red);">
+        <div class="module-title" style="color: var(--neon-red);"><span>🔋</span> POWER UNIT</div>
+        <div class="file-item">
+            <div class="file-info">
+                <span class="file-name">alternator_analysis.map</span>
+                <span class="file-meta">SIZE: 4.5MB // TYPE: IMG</span>
             </div>
+            <span class="ext-tag" style="border-color: var(--neon-red); color: var(--neon-red);">IMG</span>
         </div>
-        <div class="schematic-display">
-            <div style="text-align: center;">
-                
-                <br><br>
-                <button class="btn-action">Scan Harness</button>
+        <div class="file-item">
+            <div class="file-info">
+                <span class="file-name">charging_faults.log</span>
+                <span class="file-meta">SIZE: 8KB // TYPE: DATA</span>
             </div>
+            <span class="ext-tag" style="border-color: var(--neon-red); color: var(--neon-red);">DATA</span>
         </div>
     </div>
 
-    <footer>
-        &copy; 2026 MASANJA SYSTEMS // ADVANCED ENGINEERING // REY_TRACING_ON
-    </footer>
+    <div class="module-box" style="border-color: var(--neon-green);">
+        <div class="module-title" style="color: var(--neon-green);"><span>🔗</span> CAN-BUS LINK</div>
+        <div class="file-item">
+            <div class="file-info">
+                <span class="file-name">network_topology.pdf</span>
+                <span class="file-meta">SIZE: 12MB // TYPE: PDF</span>
+            </div>
+            <span class="ext-tag" style="border-color: var(--neon-green); color: var(--neon-green);">PDF</span>
+        </div>
+        <div class="file-item">
+            <div class="file-info">
+                <span class="file-name">j1939_frame_scan.bin</span>
+                <span class="file-meta">SIZE: 64KB // TYPE: BIN</span>
+            </div>
+            <span class="ext-tag" style="border-color: var(--neon-green); color: var(--neon-green);">BIN</span>
+        </div>
+    </div>
+</div>
 
-    <script>
-        // Hapa unaweza kuongeza lojiki ya kufanya terminal iandike herufi moja baada ya nyingine
-        const logs = document.getElementById('logs');
-        function addLog(msg) {
-            const div = document.createElement('div');
-            div.innerHTML = `<span style="color: var(--neon-purple);">[LOG]</span> ${msg}`;
-            logs.appendChild(div);
-        }
-    </script>
+<div class="diag-center">
+    <h2 style="font-family: 'Orbitron'; color: var(--neon-cyan);">DIAGNOSTIC COMMAND CENTER</h2>
+    <div class="terminal-text" id="term">
+        &gt; Initializing Volt-X OS...<br>
+        &gt; Loading Electrical Schematics...<br>
+        &gt; Monitoring CAN-High/Low Signal...<br>
+        &gt; Resistance detected: 60 Ohms (Optimal).<br>
+        &gt; Status: ALL SYSTEMS NOMINAL.
+    </div>
+    
+    <div class="schematic-preview">
+        <div style="color: #333; font-size: 5rem;">[ ⚡ ]</div>
+        <p style="color: #444; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px;">Holographic Wire Map Standby</p>
+        <button class="btn-scan">Start System Scan</button>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 MASANJA ELECTRICAL SYSTEMS // ADVANCED DIAGNOSTICS DEPT.
+</footer>
+
 </body>
 </html>
 
