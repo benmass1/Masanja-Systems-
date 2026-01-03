@@ -1,14 +1,12 @@
-
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 from utils.extractor import extract_text_from_pdf
 from utils.translator_core import translate_content
 from utils.formatter import save_as_pdf
 
-# Maelekezo kwa Flask kuwa index.html ipo hapo hapo nje
+# 1. Muhimu: template_folder='.' kwa sababu index.html ipo kwenye root
 app = Flask(__name__, template_folder='.')
 
-# Mpangilio wa Folda
 UPLOAD_FOLDER = 'uploads'
 PROCESSED_FOLDER = 'processed'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -22,26 +20,14 @@ def home():
 def upload_file():
     if 'file' not in request.files:
         return jsonify({"status": "error", "message": "Faili halijapatikana"}), 400
-    
     file = request.files['file']
-    if file.filename == '':
-        return jsonify({"status": "error", "message": "Jina tupu"}), 400
-
-    # 1. Hifadhi PDF asilia
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(file_path)
 
     try:
-        # 2. Toa maandishi
         raw_text = extract_text_from_pdf(file_path)
-        if not raw_text:
-            return jsonify({"status": "error", "message": "PDF haina maandishi"}), 400
-
-        # 3. Tafsiri (Kwa sasa tunachukua kurasa 3 za mwanzo ili isikwame)
         translated_pages = translate_content(raw_text[:3], target_lang='sw')
         full_translation = "\n\n".join(translated_pages)
-        
-        # 4. Tengeneza PDF Mpya
         output_name = f"Masanja_Tafsiri_{file.filename}"
         save_as_pdf(full_translation, output_name)
         
@@ -57,5 +43,8 @@ def upload_file():
 def download_file(filename):
     return send_from_directory(PROCESSED_FOLDER, filename, as_attachment=True)
 
+# 2. Muhimu: Port ya Render
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
