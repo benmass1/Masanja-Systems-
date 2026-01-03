@@ -1,0 +1,15 @@
+# Ficha folda za mfumo
+__pycache__/
+*.pyc
+
+# Ficha siri zako
+.env
+
+# Ficha vitabu vya wateja (Usivipandishe GitHub)
+uploads/
+processed/
+
+# Ficha mazingira ya kazi ya simu/kompyuta
+venv/
+.vscode/
+￼Enter
