@@ -3,286 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MGM Diagnostics | Jifunze Vipuri vya Mashine</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>TafsiriKitabu AI | Mkalimani wa PDF</title>
     <style>
-        body { font-family: 'Inter', sans-serif; } /* Fanti ya kisasa */
-        .gradient-bg { background: linear-gradient(135deg, #1f2937 0%, #0f172a 100%); }
-        .component-card { border-left: 5px solid #fcd34d; }
-        .component-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .section-heading { border-left: 8px solid #fcd34d; }
-        .modal { display: none; background-color: rgba(0,0,0,0.7); }
-        .modal.active { display: flex; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background: #2c3e50; color: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; }
+        .container { width: 80%; margin: 50px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #2c3e50; }
+        .upload-box { border: 2px dashed #3498db; padding: 40px; border-radius: 10px; background: #ecf0f1; cursor: pointer; margin-bottom: 20px; }
+        .upload-box:hover { background: #d6eaf8; }
+        .btn { background: #3498db; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        .btn:hover { background: #2980b9; }
+        select { padding: 10px; width: 200px; border-radius: 5px; border: 1px solid #bdc3c7; margin-bottom: 20px; }
+        .status-bar { display: none; margin-top: 20px; font-weight: bold; color: #27ae60; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen">
+<body>
 
-    <nav class="bg-gray-800 p-4 shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-yellow-400">MGM <span class="text-gray-200">Diagnostics</span></h1>
-            <div class="hidden md:flex space-x-6 text-gray-300 font-medium">
-                <a href="#" class="hover:text-yellow-400">Nyumbani</a>
-                <a href="#components" class="hover:text-yellow-400">Vipuri</a>
-                <a href="#" class="hover:text-yellow-400">Mifumo</a>
-                <a href="#" class="hover:text-yellow-400">Utatuzi</a>
-            </div>
-            <button class="md:hidden text-yellow-400 text-2xl" id="mobile-menu-button">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 mt-4 space-y-2">
-            <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-gray-700">Nyumbani</a>
-            <a href="#components" class="block px-4 py-2 text-gray-300 hover:bg-gray-700">Vipuri</a>
-            <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-gray-700">Mifumo</a>
-            <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-gray-700">Utatuzi</a>
-        </div>
-    </nav>
+<header>
+    <div class="logo"><strong>TafsiriKitabu AI</strong></div>
+    <nav>Msaada | Kuhusu</nav>
+</header>
 
-    <header class="gradient-bg text-center py-20 px-4">
-        <h2 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
-            Chunguza Kila Kipuri cha <span class="text-yellow-400">Komatsu & Caterpillar</span>
-        </h2>
-        <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            Jifunze mahali, kazi, na athari za uharibifu wa kila sehemu ya mashine nzito.
-        </p>
-        <div class="flex justify-center gap-4 flex-wrap">
-            <input type="text" id="search-input" placeholder="Tafuta kifaa (e.g., Injini, Fuel Pump)..." class="px-6 py-3 rounded-full w-full md:w-96 bg-gray-700 text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-yellow-500 border border-gray-600">
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold px-8 py-3 rounded-full shadow-lg transition">
-                <i class="fa-solid fa-search mr-2"></i> Tafuta
-            </button>
-        </div>
-    </header>
-
-    <section class="max-w-7xl mx-auto py-16 px-4">
-        <h3 class="text-3xl font-bold mb-8 text-center section-heading pl-4 ml-auto mr-auto max-w-xl">
-            Chagua Brand Kuanza
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="bg-gray-800 p-6 rounded-lg shadow-xl hover:shadow-2xl transform transition duration-300 brand-card">
-                <img src="https://static.wikia.nocookie.net/logopedia/images/e/e0/Komatsu_Logo_2006.svg" alt="Komatsu Logo" class="w-40 mx-auto mb-4">
-                <h4 class="text-2xl font-bold text-center mb-4">Komatsu</h4>
-                <p class="text-gray-400 text-center mb-6">Miongozo ya kina kwa mashine za Komatsu.</p>
-                <button onclick="showBrandDetails('Komatsu')" class="block w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-full transition">
-                    Chunguza Komatsu
-                </button>
-            </div>
-            <div class="bg-gray-800 p-6 rounded-lg shadow-xl hover:shadow-2xl transform transition duration-300 brand-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Caterpillar_logo.svg/1200px-Caterpillar_logo.svg.png" alt="Caterpillar Logo" class="w-40 mx-auto mb-4">
-                <h4 class="text-2xl font-bold text-center mb-4">Caterpillar</h4>
-                <p class="text-gray-400 text-center mb-6">Kila kitu kuhusu vifaa vya CAT.</p>
-                <button onclick="showBrandDetails('Caterpillar')" class="block w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-full transition">
-                    Chunguza Caterpillar
-                </button>
-            </div>
-             <div class="bg-gray-800 p-6 rounded-lg shadow-xl hover:shadow-2xl transform transition duration-300 brand-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Deere_%26_Company_logo.svg/1200px-Deere_%26_Company_logo.svg.png" alt="Deere Logo" class="w-40 mx-auto mb-4">
-                <h4 class="text-2xl font-bold text-center mb-4">Brands Zingine</h4>
-                <p class="text-gray-400 text-center mb-6">Miongozo ya Volvo, John Deere, na Hitachi.</p>
-                <button onclick="showBrandDetails('Other')" class="block w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 rounded-full transition">
-                    Tazama Zote
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section id="components" class="max-w-7xl mx-auto py-16 px-4">
-        <h3 class="text-3xl font-bold mb-8 text-center section-heading pl-4 ml-auto mr-auto max-w-xl">
-            Vipuri Muhimu vya Mashine
-        </h3>
-        <div id="components-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-gray-800 p-6 rounded-lg shadow-md transition duration-300 component-card">
-                <h4 class="text-xl font-bold text-yellow-400 mb-2">Fuel Pump (High Pressure)</h4>
-                <p class="text-gray-300 text-sm mb-2">Mfumo: <span class="font-semibold text-white">Fuel System</span></p>
-                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
-                    **Kazi:** Kusukuma mafuta kutoka tanki kwenda injectors kwa shinikizo la juu.
-                    **Mahali:** Huwa karibu na injini, imeunganishwa na fuel lines.
-                </p>
-                <button onclick="openComponentModal('Fuel Pump')" class="text-yellow-500 hover:underline font-bold text-sm">Soma Zaidi <i class="fa-solid fa-arrow-right ml-1"></i></button>
-            </div>
-            
-            <div class="bg-gray-800 p-6 rounded-lg shadow-md transition duration-300 component-card">
-                <h4 class="text-xl font-bold text-yellow-400 mb-2">Engine Control Unit (ECU)</h4>
-                <p class="text-gray-300 text-sm mb-2">Mfumo: <span class="font-semibold text-white">Electrical/Engine Management</span></p>
-                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
-                    **Kazi:** Kidhibiti cha ubongo wa injini. Inasimamia timing ya mafuta, hewa, na spark plug.
-                    **Mahali:** Mara nyingi hupatikana ndani ya cabin au sehemu iliyohifadhiwa karibu na injini.
-                </p>
-                <button onclick="openComponentModal('ECU')" class="text-yellow-500 hover:underline font-bold text-sm">Soma Zaidi <i class="fa-solid fa-arrow-right ml-1"></i></button>
-            </div>
-
-            <div class="bg-gray-800 p-6 rounded-lg shadow-md transition duration-300 component-card">
-                <h4 class="text-xl font-bold text-yellow-400 mb-2">Hydraulic Cylinder</h4>
-                <p class="text-gray-300 text-sm mb-2">Mfumo: <span class="font-semibold text-white">Hydraulic System</span></p>
-                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
-                    **Kazi:** Kubadilisha shinikizo la mafuta ya hydraulic kuwa nguvu ya kumeza na kutoa kwa ajili ya harakati za sehemu kama boom au bucket.
-                    **Mahali:** Zimeunganishwa kwenye sehemu zinazohamia za mashine (mfano, mikono ya excavator).
-                </p>
-                <button onclick="openComponentModal('Hydraulic Cylinder')" class="text-yellow-500 hover:underline font-bold text-sm">Soma Zaidi <i class="fa-solid fa-arrow-right ml-1"></i></button>
-            </div>
-            </div>
-    </section>
-
-    <footer class="bg-gray-800 py-10 px-4 text-center text-gray-400">
-        <p>&copy; 2026 MGM Diagnostics. Haki Zote Zimehifadhiwa.</p>
-        <div class="flex justify-center mt-4 space-x-4 text-xl">
-            <a href="#" class="hover:text-yellow-400"><i class="fa-brands fa-youtube"></i></a>
-            <a href="#" class="hover:text-yellow-400"><i class="fa-brands fa-whatsapp"></i></a>
-        </div>
-    </footer>
-
-    <div id="component-modal" class="modal fixed inset-0 z-[100] items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-lg shadow-2xl max-w-2xl w-full p-6 relative animate-fade-in-up">
-            <button onclick="closeComponentModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">
-                <i class="fa-solid fa-times"></i>
-            </button>
-            <h3 id="modal-title" class="text-3xl font-bold text-yellow-400 mb-4"></h3>
-            <img id="modal-image" src="" alt="Component Image" class="w-full h-64 object-cover rounded-md mb-4 hidden">
-            <p class="text-gray-300 mb-2"><span class="font-bold text-white">Mfumo:</span> <span id="modal-system"></span></p>
-            <p class="text-gray-300 mb-4"><span class="font-bold text-white">Mahali:</span> <span id="modal-location"></span></p>
-            <p class="text-gray-300 mb-4"><span class="font-bold text-white">Kazi:</span> <span id="modal-function"></span></p>
-            <p class="text-gray-300 mb-4"><span class="font-bold text-white">Kikiharibika:</span> <span id="modal-impact"></span></p>
-            <a href="#" id="modal-more-info" class="text-blue-400 hover:underline font-semibold mt-4 block">Soma Manual Kamili <i class="fa-solid fa-external-link-alt ml-1"></i></a>
-        </div>
+<div class="container">
+    <h1>Tafsiri Kitabu Chote Ndani ya Dakika</h1>
+    <p>Upload faili lako la PDF (hata kama ni kurasa 500), mfumo utatafsiri sura zote kiotomatiki.</p>
+    
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+        <p>Bofya hapa au buruta (drag) kitabu chako cha PDF hapa</p>
+        <input type="file" id="fileInput" style="display:none" accept=".pdf">
+        <strong>(Inasapoti: PDF, DOCX, EPUB)</strong>
     </div>
 
-    <script>
-        // Data ya vipuri (Hii inaweza kutoka database halisi)
-        const componentsData = [
-            {
-                name: "Fuel Pump (High Pressure)",
-                brand: "Komatsu",
-                system: "Fuel System",
-                location: "Imewekwa karibu na injini, imeunganishwa na fuel lines.",
-                function: "Kusukuma mafuta kutoka tanki kwenda injectors kwa shinikizo la juu ili kuhakikisha atomization sahihi ya mafuta.",
-                impact: "Injini itashindwa kuwaka, kupoteza nguvu, au kuzima ghafla. Mfumo wa mafuta unaweza kutoa code za hitilafu (fault codes) kama low fuel pressure.",
-                image: "https://www.komatsuparts.com/wp-content/uploads/2021/01/Fuel-pump-e1610427382436.jpg",
-                manualLink: "#" // Link ya manual husika
-            },
-            {
-                name: "Engine Control Unit (ECU)",
-                brand: "Caterpillar",
-                system: "Electrical/Engine Management",
-                location: "Mara nyingi hupatikana ndani ya cabin au sehemu iliyohifadhiwa karibu na injini, ikiwa imefungwa salama.",
-                function: "Kudhibiti na kusimamia mifumo mbalimbali ya injini kama vile sindano ya mafuta, muda wa moto, na usimamizi wa hewa. Ni kama 'ubongo' wa injini.",
-                impact: "Injini itashindwa kuwaka kabisa, au itaonyesha tabia zisizo za kawaida kama kutoa moshi mwingi, kupoteza nguvu, au kuzima mara kwa mara. Hii huathiri utendaji wote wa injini.",
-                image: "https://shop.cat.com/c/dam/cat/parts/179-8803_Engine_Control_GP_Cat_3408_3412_Engine_Control_Unit_Module_ECM.jpg",
-                manualLink: "#"
-            },
-            {
-                name: "Hydraulic Cylinder",
-                brand: "Komatsu",
-                system: "Hydraulic System",
-                location: "Zimeunganishwa kwenye sehemu zinazohamia za mashine kama vile mikono (boom), ndoo (bucket), na blade.",
-                function: "Kubadilisha shinikizo la mafuta ya hydraulic kuwa nguvu ya mitambo (linear force) ambayo husababisha sehemu za mashine kusogea (kumeza, kutoa, kuinua).",
-                impact: "Mashine itapoteza uwezo wa kusogeza sehemu husika. Boom haitaweza kuinuka, ndoo haitaweza kuchimba vizuri, au blade haitaweza kusawazisha ardhi. Uvujaji wa mafuta unaweza kutokea.",
-                image: "https://www.komatsuparts.com/wp-content/uploads/2022/03/Komatsu-Hydraulic-Cylinder.jpg",
-                manualLink: "#"
-            },
-            {
-                name: "Radiator Fan",
-                brand: "Caterpillar",
-                system: "Cooling System",
-                location: "Ipo mbele au nyuma ya radiator ya injini.",
-                function: "Kuvuta hewa baridi kupitia fins za radiator ili kupunguza joto la coolant ya injini.",
-                impact: "Injini itapata joto kupita kiasi (overheating), jambo litakalosababisha uharibifu mkubwa wa injini.",
-                image: "https://www.heavyequipmentparts.net/wp-content/uploads/2020/06/Radiator-Fan-for-Caterpillar.jpg",
-                manualLink: "#"
-            },
-            {
-                name: "Alternator",
-                brand: "Komatsu",
-                system: "Electrical System",
-                location: "Imefungwa kwenye injini na inaendeshwa na belt.",
-                function: "Kuzalisha umeme (AC current) ambao hubadilishwa kuwa DC current ili kuchaji betri na kuwezesha mifumo ya umeme ya mashine.",
-                impact: "Betri itashindwa kuchaji na hatimaye mashine itazima kutokana na kukosa umeme. Mifumo ya umeme kama taa na redio haitafanya kazi.",
-                image: "https://www.komatsuparts.com/wp-content/uploads/2021/01/Alternator-e1610427495537.jpg",
-                manualLink: "#"
-            }
-        ];
+    <div>
+        <label>Tafsiri kwenda lugha ya:</label><br>
+        <select>
+            <option>Kiswahili</option>
+            <option>Kiingereza (English)</option>
+            <option>Kifaransa (French)</option>
+            <option>Kiarabu (Arabic)</option>
+        </select>
+    </div>
 
-        // Functions za kufungua na kufunga modal
-        function openComponentModal(componentName) {
-            const component = componentsData.find(c => c.name === componentName);
-            if (!component) return;
+    <button class="btn" onclick="startTranslation()">Anza Kutafsiri Sasa</button>
 
-            document.getElementById('modal-title').innerText = component.name;
-            document.getElementById('modal-system').innerText = component.system;
-            document.getElementById('modal-location').innerText = component.location;
-            document.getElementById('modal-function').innerText = component.function;
-            document.getElementById('modal-impact').innerText = component.impact;
-            
-            const modalImage = document.getElementById('modal-image');
-            if (component.image) {
-                modalImage.src = component.image;
-                modalImage.classList.remove('hidden');
-            } else {
-                modalImage.classList.add('hidden');
-            }
-            
-            document.getElementById('modal-more-info').href = component.manualLink;
-            document.getElementById('component-modal').classList.add('active');
-        }
+    <div id="status" class="status-bar">
+        Inachakata... Tafadhali subiri, inatafsiri Sura ya 1 hadi ya 10...
+    </div>
+</div>
 
-        function closeComponentModal() {
-            document.getElementById('component-modal').classList.remove('active');
-        }
-
-        // Generate Component Cards dynamically
-        const componentsListDiv = document.getElementById('components-list');
-        componentsListDiv.innerHTML = ''; // Clear existing samples
-        componentsData.forEach(component => {
-            const card = `
-                <div class="bg-gray-800 p-6 rounded-lg shadow-md transition duration-300 component-card">
-                    <h4 class="text-xl font-bold text-yellow-400 mb-2">${component.name}</h4>
-                    <p class="text-gray-300 text-sm mb-2">Mfumo: <span class="font-semibold text-white">${component.system}</span></p>
-                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">
-                        **Kazi:** ${component.function}
-                        **Mahali:** ${component.location}
-                    </p>
-                    <button onclick="openComponentModal('${component.name}')" class="text-yellow-500 hover:underline font-bold text-sm">Soma Zaidi <i class="fa-solid fa-arrow-right ml-1"></i></button>
-                </div>
-            `;
-            componentsListDiv.innerHTML += card;
-        });
-
-        // Mobile Menu Toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        // Simple Search Functionality
-        document.getElementById('search-input').addEventListener('keyup', function(event) {
-            const searchTerm = event.target.value.toLowerCase();
-            const filteredComponents = componentsData.filter(component => 
-                component.name.toLowerCase().includes(searchTerm) ||
-                component.system.toLowerCase().includes(searchTerm) ||
-                component.function.toLowerCase().includes(searchTerm) ||
-                component.location.toLowerCase().includes(searchTerm)
-            );
-            
-            componentsListDiv.innerHTML = '';
-            filteredComponents.forEach(component => {
-                const card = `
-                    <div class="bg-gray-800 p-6 rounded-lg shadow-md transition duration-300 component-card">
-                        <h4 class="text-xl font-bold text-yellow-400 mb-2">${component.name}</h4>
-                        <p class="text-gray-300 text-sm mb-2">Mfumo: <span class="font-semibold text-white">${component.system}</span></p>
-                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">
-                            **Kazi:** ${component.function}
-                            **Mahali:** ${component.location}
-                        </p>
-                        <button onclick="openComponentModal('${component.name}')" class="text-yellow-500 hover:underline font-bold text-sm">Soma Zaidi <i class="fa-solid fa-arrow-right ml-1"></i></button>
-                    </div>
-                `;
-                componentsListDiv.innerHTML += card;
-            });
-        });
-
-        function showBrandDetails(brand) {
-            alert(`Umechagua ${brand}. Hapa ndipo utaona orodha kamili ya mashine na vipuri vya ${brand}.`);
-            // Hapa unaweza ku-redirect kwa ukurasa mwingine au kuchuja vipuri
-        }
-    </script>
+<script>
+    function startTranslation() {
+        document.getElementById('status').style.display = 'block';
+        alert('Mfumo wa Backend utaanza kuchakata kitabu chako sasa!');
+    }
+</script>
 
 </body>
 </html>
